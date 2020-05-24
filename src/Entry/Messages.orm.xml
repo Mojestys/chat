@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="annotation\Messages" table="messages">
+    <indexes>
+      <index name="dialog_id" columns="dialog_id"/>
+      <index name="IDX_DB021E962A98155E" columns="sender_user_id"/>
+    </indexes>
+    <unique-constraints>
+      <unique-constraint name="sender_user_id" columns="sender_user_id,dialog_id"/>
+    </unique-constraints>
+    <id name="messageId" type="integer" column="message_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="text" type="string" column="text" length="32" nullable="false">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="messageDate" type="datetime" column="message_date" nullable="false"/>
+    <many-to-one field="dialog" target-entity="Dialogs" fetch="LAZY">
+      <join-columns>
+        <join-column name="dialog_id" referenced-column-name="dialog_id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="senderUser" target-entity="Users" fetch="LAZY">
+      <join-columns>
+        <join-column name="sender_user_id" referenced-column-name="user_id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>
